@@ -1,6 +1,6 @@
 use crate::application::ApplicationHandler;
 use crate::error::EventLoopError;
-use crate::event_loop::{ActiveEventLoop, EventLoop};
+use crate::event_loop::EventLoop;
 
 #[cfg(doc)]
 use crate::{platform::pump_events::EventLoopExtPumpEvents, window::Window};
@@ -71,15 +71,7 @@ impl<T> EventLoopExtRunOnDemand for EventLoop<T> {
         &mut self,
         app: &mut A,
     ) -> Result<(), EventLoopError> {
-        self.event_loop.window_target().clear_exit();
         self.event_loop.run_app_on_demand(app)
-    }
-}
-
-impl ActiveEventLoop {
-    /// Clear exit status.
-    pub(crate) fn clear_exit(&self) {
-        self.p.clear_exit()
     }
 }
 
