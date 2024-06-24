@@ -611,13 +611,18 @@ pub(crate) fn handle_nonuser_events<I: IntoIterator<Item = EventWrapper>>(
     for wrapper in events {
         match wrapper {
             EventWrapper::StaticEvent(event) => {
+                // marker_for_frame_ignore is used to filter against these events since they can be quite noisy
                 if !processing_redraws && event.is_redraw() {
-                    log::info!("processing `RedrawRequested` during the main event loop");
+                    // log::info!(
+                    //     marker_for_frame_ignore = true,
+                    //     "processing `RedrawRequested` during the main event loop"
+                    // );
                 } else if processing_redraws && !event.is_redraw() {
-                    log::warn!(
-                        "processing non `RedrawRequested` event after the main event loop: {:#?}",
-                        event
-                    );
+                    // log::warn!(
+                    //     marker_for_frame_ignore = true,
+                    //     "processing non `RedrawRequested` event after the main event loop: {:#?}",
+                    //     event
+                    // );
                 }
                 event_handler.handle_nonuser_event(event)
             }
