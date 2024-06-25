@@ -344,6 +344,17 @@ declare_class!(
                 .get()
         }
     }
+
+    unsafe impl objc2_ui_kit::UIPencilInteractionDelegate {
+        #[method(pencilInteraction:didReceiveTap:)]
+        fn pencilInteraction_didReceiveTap(
+            &self,
+            interaction: &objc2_ui_kit::UIPencilInteraction,
+            tap: &UIPencilInteractionTap,
+        ) {
+            tracing::error!(message = "Pencil Double Tap", ?interaction, ?tap);
+        }
+    }
 );
 
 impl WinitViewController {
