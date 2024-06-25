@@ -185,6 +185,7 @@ objc2-ui-kit = { version = "0.2.2", features = [
     "UIGestureRecognizer",
     "UIOrientation",
     "UIPanGestureRecognizer",
+		"UIPencilInteraction",
     "UIPinchGestureRecognizer",
     "UIResponder",
     "UIRotationGestureRecognizer",

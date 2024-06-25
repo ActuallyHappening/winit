@@ -2,10 +2,11 @@ use std::cell::Cell;
 
 use objc2::rc::Retained;
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{MainThreadMarker, NSObject};
+use objc2_foundation::{MainThreadMarker, NSObject, NSObjectProtocol};
 use objc2_ui_kit::{
-    UIDevice, UIInterfaceOrientationMask, UIRectEdge, UIResponder, UIStatusBarStyle,
-    UIUserInterfaceIdiom, UIView, UIViewController,
+    UIDevice, UIInterfaceOrientationMask, UIPencilInteraction, UIPencilInteractionDelegate,
+    UIPencilInteractionTap, UIRectEdge, UIResponder, UIStatusBarStyle, UIUserInterfaceIdiom,
+    UIView, UIViewController,
 };
 
 use super::app_state::{self};
@@ -67,6 +68,23 @@ declare_class!(
                 .get()
         }
     }
+
+        unsafe impl NSObjectProtocol for WinitViewController {}
+
+        unsafe impl UIPencilInteractionDelegate for WinitViewController {
+    #[method(pencilInteraction:didReceiveTap:)]
+    fn pencilInteraction_didReceiveTap(
+        &self,
+        interaction: &UIPencilInteraction,
+        tap: &UIPencilInteractionTap,
+    ) {
+        tracing::error!(
+            "Pencil Double Tap, interaction: {:?}, tap: {:?}",
+            interaction,
+            tap
+        );
+    }
+}
 );
 
 impl WinitViewController {
